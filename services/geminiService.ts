@@ -1,16 +1,18 @@
-
 import { GoogleGenAI } from "@google/genai";
 import { PORTFOLIO_DATA } from '../constants';
 
-if (!process.env.API_KEY) {
-    console.warn("API_KEY environment variable not set. AI Assistant will not function.");
+// Safely access the API key to prevent crashes in browser environments.
+const apiKey = (typeof process !== 'undefined' && process.env) ? process.env.API_KEY : undefined;
+
+if (!apiKey) {
+    console.warn("API_KEY environment variable not set or not accessible in this environment. AI Assistant will not function.");
 }
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+const ai = new GoogleGenAI({ apiKey: apiKey! });
 
 export const getAiResponse = async (history: { role: string, parts: { text: string }[] }[], newMessage: string): Promise<string> => {
-    if (!process.env.API_KEY) {
-        return "The AI assistant is currently unavailable. The API key is not configured.";
+    if (!apiKey) {
+        return "The AI assistant is currently unavailable. The API key is not configured for this hosting environment.";
     }
 
     try {
