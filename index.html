@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ammar Emad | Software Tester Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-        /* Define theme colors as CSS variables for easy toggling */
         :root {
             --bg-primary: #f8fafc; /* slate-50 */
             --bg-secondary: #ffffff; /* white */
@@ -34,31 +34,32 @@
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
         }
-
-        /* Add smooth scrolling behavior */
+        
         html {
             scroll-behavior: smooth;
+        }
+
+        /* Additional style for active nav link */
+        .nav-link-active {
+            color: var(--accent-primary);
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
-    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.18.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
     "react/": "https://aistudiocdn.com/react@^19.1.1/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.18.0"
+    "react": "https://aistudiocdn.com/react@^19.1.1"
   }
 }
 </script>
-<!-- Add Babel for in-browser JSX/TSX transformation -->
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
-<body>
-<div id="root"></div>
-<!-- Changed script type to 'text/babel' and path to relative for GitHub Pages compatibility -->
-<script type="text/babel" data-type="module" src="./index.tsx"></script>
+<body class="bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
+    <div id="root"></div>
+    <script type="text/babel" data-type="module" src="./index.tsx"></script>
 </body>
 </html>
