@@ -1,4 +1,3 @@
-
 import { GoogleGenAI } from "@google/genai";
 
 // --- SVG ICONS ---
@@ -204,7 +203,7 @@ function renderProjectsAndFilters() {
     `).join('');
 
     projectsGrid.innerHTML = PORTFOLIO_DATA.projects.map(project => `
-        <div class="project-card group bg-[var(--bg-secondary)] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-[var(--border-color)]" data-category="${project.category}">
+        <div class="project-card group bg-[var(--bg-secondary)] rounded-lg overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-[var(--border-color)] flex flex-col" data-category="${project.category}">
             <div class="relative">
                 <img src="${project.image}" alt="${project.title}" class="w-full h-48 object-cover" />
             </div>
@@ -302,7 +301,7 @@ function renderAiAssistant() {
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
             </svg>
         </button>
-        <div id="ai-assistant-window" class="hidden fixed bottom-24 right-6 w-96 h-[32rem] bg-[var(--bg-secondary)] rounded-lg shadow-2xl flex-col z-50 border border-[var(--border-color)]">
+        <div id="ai-assistant-window" class="hidden fixed bottom-24 right-6 w-96 h-[32rem] bg-[var(--bg-secondary)] rounded-lg shadow-2xl flex flex-col z-50 border border-[var(--border-color)]">
             <header class="bg-[var(--accent-primary)] text-white p-4 rounded-t-lg flex justify-between items-center">
                 <h3 class="font-bold text-lg">Portfolio AI Assistant</h3>
                 <button id="ai-assistant-close" class="text-2xl leading-none">&times;</button>
@@ -447,9 +446,9 @@ function initContactForm() {
             const message = formData.get('message');
             
             const mailtoSubject = encodeURIComponent(subject);
-            const mailtoBody = encodeURIComponent(`Name: ${name}\nFrom: ${email}\n\nMessage:\n${message}`);
+            const mailtoBody = encodeURIComponent(\`Name: \${name}\nFrom: \${email}\n\nMessage:\n\${message}\`);
             
-            window.location.href = `mailto:${PORTFOLIO_DATA.contact.email}?subject=${mailtoSubject}&body=${mailtoBody}`;
+            window.location.href = \`mailto:\${PORTFOLIO_DATA.contact.email}?subject=\${mailtoSubject}&body=\${mailtoBody}\`;
             
             isSubmitted = true;
             renderThankYou();
@@ -529,8 +528,8 @@ function initAiAssistant() {
     const addMessage = (sender, text) => {
         messages.push({ sender, text });
         const messageEl = document.createElement('div');
-        messageEl.className = `flex mb-4 ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
-        messageEl.innerHTML = `<div class="max-w-[80%] p-3 rounded-lg ${sender === 'user' ? 'bg-[var(--accent-primary)] text-white' : 'bg-[var(--bg-accent)] text-[var(--text-primary)]'}">${text}</div>`;
+        messageEl.className = \`flex mb-4 \${sender === 'user' ? 'justify-end' : 'justify-start'}\`;
+        messageEl.innerHTML = \`<div class="max-w-[80%] p-3 rounded-lg \${sender === 'user' ? 'bg-[var(--accent-primary)] text-white' : 'bg-[var(--bg-accent)] text-[var(--text-primary)]'}">\${text}</div>\`;
         messagesContainer.appendChild(messageEl);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     };
@@ -544,7 +543,7 @@ function initAiAssistant() {
         if (state && !loadingEl) {
             const el = document.createElement('div');
             el.className = 'loading-indicator flex justify-start mb-4';
-            el.innerHTML = `<div class="max-w-[80%] p-3 rounded-lg bg-[var(--bg-accent)] text-[var(--text-primary)]"><div class="flex items-center space-x-2"><div class="w-2 h-2 bg-[var(--text-secondary)] rounded-full animate-pulse delay-75"></div><div class="w-2 h-2 bg-[var(--text-secondary)] rounded-full animate-pulse delay-150"></div><div class="w-2 h-2 bg-[var(--text-secondary)] rounded-full animate-pulse delay-300"></div></div></div>`;
+            el.innerHTML = \`<div class="max-w-[80%] p-3 rounded-lg bg-[var(--bg-accent)] text-[var(--text-primary)]"><div class="flex items-center space-x-2"><div class="w-2 h-2 bg-[var(--text-secondary)] rounded-full animate-pulse delay-75"></div><div class="w-2 h-2 bg-[var(--text-secondary)] rounded-full animate-pulse delay-150"></div><div class="w-2 h-2 bg-[var(--text-secondary)] rounded-full animate-pulse delay-300"></div></div></div>\`;
             messagesContainer.appendChild(el);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         } else if (!state && loadingEl) {
@@ -601,10 +600,10 @@ const getAiResponse = async (history, newMessage) => {
         const chat = ai.chats.create({
             model: 'gemini-2.5-flash',
             config: {
-                systemInstruction: `You are a helpful AI assistant for Ammar Emad's portfolio. Your goal is to answer questions about his skills, experience, and projects based ONLY on the following JSON data. Do not invent any information or discuss topics outside of this data. If the answer is not in the data, politely state that you don't have that information. Keep your answers concise and professional.
+                systemInstruction: \`You are a helpful AI assistant for Ammar Emad's portfolio. Your goal is to answer questions about his skills, experience, and projects based ONLY on the following JSON data. Do not invent any information or discuss topics outside of this data. If the answer is not in the data, politely state that you don't have that information. Keep your answers concise and professional.
                 
                 Portfolio Data:
-                ${portfolioDataString}`
+                \${portfolioDataString}\`
             },
             history: history,
         });
